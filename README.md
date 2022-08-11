@@ -1,6 +1,7 @@
 # API UONET+ Wiadomości Plus
 
 Base URL (Gdańsk): `https://uonetplus-wiadomosciplus.edu.gdansk.pl/gdansk/api/`
+
 Autoryzacja przez nagłówek `Cookie`
 
 ## Obiekty
@@ -18,13 +19,6 @@ Wiadomość: {
     temat: str ("test"),
     uzytkownikRola: int (1),
     wazna: bool (false)
-}
-```
-
-```
-Ustawienia : {
-    stopka: str | null ("<p>test</p>"),
-    trybWysylaniaPowiadomien: int (1)
 }
 ```
 
@@ -153,7 +147,12 @@ Pobiera ustawienia wybranego użytkownika
 
 200
 
-- `Ustawienia`
+```
+{
+    stopka: str | null ("<p>test</p>"),
+    trybWysylaniaPowiadomien: int (1)
+}
+```
 
 ---
 
@@ -170,3 +169,30 @@ Modyfikuje ustawienia wybranego użytkownika
 #### Response
 
 204
+
+---
+
+### GET `Cache`
+
+Pobiera drobne ustawienia
+
+#### Response (JSON)
+
+200
+
+```
+{
+    googleDriveApiKey: str (""),
+    googleDriveClientId: str (""),
+    oneDriveClientId: str ("ca12431d-6b51-4489-ad8d-166b0cda986c"),
+    links: [
+        {
+            elementy: ??? (null),
+            nazwa: str ("Uczeń"),
+            link: str ("https://uonetplus-uczen.edu.gdansk.pl/gdansk/placowka/LoginEndpoint.aspx"),
+            modul: int (0)
+        }
+    ],
+    "wiadomoscPowitalnaOn": bool (false)
+}
+```
