@@ -1,6 +1,7 @@
 # API UONET+ Wiadomości Plus
 
 Base URL (Gdańsk): `https://uonetplus-wiadomosciplus.edu.gdansk.pl/gdansk/api/`
+Autoryzacja przez nagłówek `Cookie`
 
 ## Obiekty
 
@@ -99,6 +100,18 @@ Pobiera usunięte wiadomości
 ### GET `Kopie`
 
 Pobiera kopie robocze
+
+### GET `OdebraneArchiwum`
+
+Pobiera zarchiwizowane odebrane wiadomości
+
+### GET `WyslaneArchiwum`
+
+Pobiera zarchiwizowane wysłane wiadomości
+
+### GET `UsunieteArchiwum`
+
+Pobiera zarchiwizowane usunięte wiadomości
 
 #### Request (Query String)
 
