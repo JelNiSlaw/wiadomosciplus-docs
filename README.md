@@ -7,8 +7,8 @@ Autoryzacja przez nagłówek `Cookie`
 ## Obiekty
 
 ```
-Wiadomość: {
-    apiGlobalKey: str ("76512a0b-f2f5-4100-8f0b-f3876d53cd62"),
+WiadomośćMeta: {
+    apiGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
     data: ISO 8601 ("2022-08-11T23:58:20.81+02:00"),
     hasZalaczniki: bool (false),
     id: int (21),
@@ -19,6 +19,22 @@ Wiadomość: {
     temat: str ("test"),
     uzytkownikRola: int (1),
     wazna: bool (false)
+}
+```
+
+```
+Wiadomość: {
+    apiGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    data: ISO 8601 ("2022-06-21T18:16:16.443+02:00"),
+    id: int (1234567),
+    nadawca: str ("Stanisław Jelnicki - U - (placówka)"),
+    odbiorcy: [
+        "Stanisław Jelnicki - U - (placówka)",
+    ],
+    odczytana: bool (false),
+    temat: str ("test"),
+    tresc: str ("<p>test</p>"),
+    zalaczniki: ??? ([])
 }
 ```
 
@@ -40,7 +56,7 @@ Pobiera nowe wysłane wiadomości (nieużywane na stronie)
 
 200
 
-- `list[Wiadomość]`
+- `list[WiadomośćMeta]`
 
 ---
 
@@ -68,9 +84,13 @@ Pobiera wysłane wiadomości wybranego użytkownika
 
 Pobiera usunięte wiadomości wybranego użytkownika
 
+### GET `KopieSkrzynka`
+
+Pobiera kopie robocze wybranego użytkownika
+
 #### Request (Query String)
 
-- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+- `globalKeySkrzynka`: `str` (`"00000000-0000-0000-0000-000000000000"`)
 - `idLastWiadomosc`: `int` (`0`)
 - `pageSize`: `int` (`50`)
 
@@ -78,7 +98,7 @@ Pobiera usunięte wiadomości wybranego użytkownika
 
 200
 
-- `list[Wiadomość]`
+- `list[WiadomośćMeta]`
 
 ---
 
@@ -90,7 +110,7 @@ Ekran "Pobieranie plików"
 
 200
 
-- `list[Wiadomość]`
+- `list[WiadomośćMeta]`
 
 ---
 
@@ -131,7 +151,7 @@ Pobiera zarchiwizowane usunięte wiadomości
 
 200
 
-- `list[Wiadomość]`
+- `list[WiadomośćMeta]`
 
 ---
 
@@ -141,7 +161,7 @@ Pobiera ustawienia wybranego użytkownika
 
 #### Request (Query String)
 
-- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+- `globalKeySkrzynka`: `str` (`"00000000-0000-0000-0000-000000000000"`)
 
 #### Response (JSON)
 
@@ -162,7 +182,7 @@ Modyfikuje ustawienia wybranego użytkownika
 
 #### Request (JSON)
 
-- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+- `globalKeySkrzynka`: `str` (`"00000000-0000-0000-0000-000000000000"`)
 - `stopka`: `str | null` (`"<p>test</p>"`)
 - `trybWysylaniaPowiadomien`: `int` (`1`)
 
@@ -184,7 +204,7 @@ Pobiera drobne ustawienia
 {
     googleDriveApiKey: str (""),
     googleDriveClientId: str (""),
-    oneDriveClientId: str ("ca12431d-6b51-4489-ad8d-166b0cda986c"),
+    oneDriveClientId: str ("00000000-0000-0000-0000-000000000000"),
     links: [
         {
             elementy: ??? (null),
@@ -209,10 +229,10 @@ Pobiera aktualnie ustawione stopki użytkowników
 
 ```
 [
-	{
-		skrzynkaGlobalKey: str ("a4408f53-e2e1-47b0-be8d-049160a3da11"),
-		tresc: str ("<p>test</p>")
-	}
+    {
+        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+        tresc: str ("<p>test</p>")
+    }
 ]
 ```
 
@@ -238,10 +258,38 @@ Pobiera listę użytkowników
 
 ```
 [
-	{
-		globalKey: str ("a4408f53-e2e1-47b0-be8d-049160a3da11"),
-		nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
-		typUzytkownika: int (3)
-	}
+    {
+        globalKey: str ("00000000-0000-0000-0000-000000000000"),
+        nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+        typUzytkownika: int (3)
+    }
 ]
 ```
+
+---
+
+### GET `Kopia`
+
+Pobiera szczegóły kopii roboczej
+
+#### Response (JSON)
+
+200
+
+- `Wiadomość`
+
+---
+
+### GET `OdebraneSzczegolyArchiwum`
+
+Pobiera szczegóły zarchiwizowanej odebranej wiadomości
+
+#### Request (Query String)
+
+- `idWiadomosc`: `int` (`1234567`)
+
+#### Response (JSON)
+
+200
+
+- `Wiadomość`
