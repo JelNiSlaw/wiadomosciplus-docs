@@ -52,7 +52,7 @@ Pobiera liczbę nieodebranych wiadomości
 
 200
 
-- `list[Wiadomość]`
+- nie wiem pusta lista
 
 ---
 
@@ -195,4 +195,53 @@ Pobiera drobne ustawienia
     ],
     "wiadomoscPowitalnaOn": bool (false)
 }
+```
+
+---
+
+### GET `Stopka`
+
+Pobiera aktualnie ustawione stopki użytkowników
+
+#### Response (JSON)
+
+200
+
+```
+[
+	{
+		skrzynkaGlobalKey: str ("a4408f53-e2e1-47b0-be8d-049160a3da11"),
+		tresc: str ("<p>test</p>")
+	}
+]
+```
+
+---
+
+### POST `StatystykiLogowan`
+
+Informuje serwer o nowej sesji?
+
+#### Response
+
+204
+
+---
+
+### GET `Skrzynki`
+
+Pobiera listę użytkowników
+
+#### Response (JSON)
+
+200
+
+```
+[
+	{
+		globalKey: str ("a4408f53-e2e1-47b0-be8d-049160a3da11"),
+		nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+		typUzytkownika: int (3)
+	}
+]
 ```
