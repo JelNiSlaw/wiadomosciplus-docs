@@ -1,10 +1,29 @@
-**API Wiadomości Plus**
+# API UONET+ Wiadomości Plus
 
 ```md
 - base URL (Gdańsk): https://uonetplus-wiadomosciplus.edu.gdansk.pl/gdansk/api/
 ```
 
-**Endpointy**
+## Obiekty
+
+```
+Wiadomość
+{
+    apiGlobalKey: str ("76512a0b-f2f5-4100-8f0b-f3876d53cd62"),
+    data: ISO 8601 ("2022-08-11T23:58:20.81+02:00"),
+    hasZalaczniki: bool (false),
+    id: int (21),
+    korespondenci: str ("Wielu adresatów (0)"),
+    nieprzeczytanePrzeczytanePrzez: list[str] | null (null),
+    przeczytana: bool (true),
+    skrzynka: str (Stanisław Jelnicki - U - (placówka)),
+    temat: str ("test"),
+    uzytkownikRola: int (1),
+    wazna: bool (false)
+}
+```
+
+## Endpointy
 
 ```md
 GET OdebraneNowe
@@ -21,7 +40,7 @@ Request (Query String)
 
 Response (JSON)
 
-- nie wiem pusta lista
+- list[Wiadomość]
 ```
 
 ```md
@@ -31,7 +50,7 @@ GET LiczbyNieodczytanych
 
 Response (JSON)
 
-- nie wiem pusta lista
+- list[Wiadomość]
 ```
 
 ```md
@@ -55,7 +74,7 @@ Request (Query String)
 
 Response (JSON)
 
-- nie wiem pusta lista
+- list[Wiadomość]
 ```
 
 ```md
@@ -65,7 +84,7 @@ GET DdsArchive
 
 Response (JSON)
 
-- nie wiem pusta lista
+- list[Wiadomość]
 ```
 
 ```md
@@ -92,5 +111,5 @@ Request (Query String)
 
 Response (JSON)
 
-- nie wiem pusta lista
+- list[Wiadomość]
 ```
