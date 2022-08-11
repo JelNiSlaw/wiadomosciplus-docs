@@ -12,12 +12,19 @@ Wiadomość: {
     hasZalaczniki: bool (false),
     id: int (21),
     korespondenci: str ("Wielu adresatów (0)"),
-    nieprzeczytanePrzeczytanePrzez: list[str] | null (null),
+    nieprzeczytanePrzeczytanePrzez: ??? (null),
     przeczytana: bool (true),
     skrzynka: str (Stanisław Jelnicki - U - (placówka)),
     temat: str ("test"),
     uzytkownikRola: int (1),
     wazna: bool (false)
+}
+```
+
+```
+Ustawienia : {
+    stopka: str | null ("<p>test</p>"),
+    trybWysylaniaPowiadomien: int (1)
 }
 ```
 
@@ -37,6 +44,8 @@ Pobiera nowe wysłane wiadomości (nieużywane na stronie)
 
 #### Response (JSON)
 
+200
+
 - `list[Wiadomość]`
 
 ---
@@ -46,6 +55,8 @@ Pobiera nowe wysłane wiadomości (nieużywane na stronie)
 Pobiera liczbę nieodebranych wiadomości
 
 #### Response (JSON)
+
+200
 
 - `list[Wiadomość]`
 
@@ -71,6 +82,8 @@ Pobiera usunięte wiadomości wybranego użytkownika
 
 #### Response (JSON)
 
+200
+
 - `list[Wiadomość]`
 
 ---
@@ -80,6 +93,8 @@ Pobiera usunięte wiadomości wybranego użytkownika
 Ekran "Pobieranie plików"
 
 #### Response (JSON)
+
+200
 
 - `list[Wiadomość]`
 
@@ -120,4 +135,38 @@ Pobiera zarchiwizowane usunięte wiadomości
 
 #### Response (JSON)
 
+200
+
 - `list[Wiadomość]`
+
+---
+
+### GET `Ustawienia`
+
+Pobiera ustawienia wybranego użytkownika
+
+#### Request (Query String)
+
+- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+
+#### Response (JSON)
+
+200
+
+- `Ustawienia`
+
+---
+
+### POST `Ustawienia`
+
+Modyfikuje ustawienia wybranego użytkownika
+
+#### Request (JSON)
+
+- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+- `stopka`: `str | null` (`"<p>test</p>"`)
+- `trybWysylaniaPowiadomien`: `int` (`1`)
+
+#### Response
+
+204
