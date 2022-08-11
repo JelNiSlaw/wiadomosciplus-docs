@@ -1,14 +1,11 @@
 # API UONET+ Wiadomości Plus
 
-```md
-- base URL (Gdańsk): https://uonetplus-wiadomosciplus.edu.gdansk.pl/gdansk/api/
-```
+Base URL (Gdańsk): `https://uonetplus-wiadomosciplus.edu.gdansk.pl/gdansk/api/`
 
 ## Obiekty
 
 ```
-Wiadomość
-{
+Wiadomość: {
     apiGlobalKey: str ("76512a0b-f2f5-4100-8f0b-f3876d53cd62"),
     data: ISO 8601 ("2022-08-11T23:58:20.81+02:00"),
     hasZalaczniki: bool (false),
@@ -25,91 +22,89 @@ Wiadomość
 
 ## Endpointy
 
-```md
-GET OdebraneNowe
+### GET `OdebraneNowe`
 
-- Pobiera nowe odebrane wiadomości
+Pobiera nowe odebrane wiadomości
 
-GET WyslaneNowe
+### GET `WyslaneNowe`
 
-- Pobiera nowe wysłane wiadomości (nieużywane na stronie)
+Pobiera nowe wysłane wiadomości (nieużywane na stronie)
 
-Request (Query String)
+#### Request (Query String)
 
-- idTopWiadomosc: int (0)
+- `idTopWiadomosc`: `int` (`0`)
 
-Response (JSON)
+#### Response (JSON)
 
-- list[Wiadomość]
-```
+- `list[Wiadomość]`
 
-```md
-GET LiczbyNieodczytanych
+---
 
-- Pobiera liczbę nieodebranych wiadomości
+### GET `LiczbyNieodczytanych`
 
-Response (JSON)
+Pobiera liczbę nieodebranych wiadomości
 
-- list[Wiadomość]
-```
+#### Response (JSON)
 
-```md
-GET OdebraneSkrzynka
+- `list[Wiadomość]`
 
-- Pobiera odebrane wiadomości wybranego użytkownika
+---
 
-GET WyslaneSkrzynka
+### GET `OdebraneSkrzynka`
 
-- Pobiera wysłane wiadomości wybranego użytkownika
+Pobiera odebrane wiadomości wybranego użytkownika
 
-GET UsunieteSkrzynka
+### GET `WyslaneSkrzynka`
 
-- Pobiera usunięte wiadomości wybranego użytkownika
+Pobiera wysłane wiadomości wybranego użytkownika
 
-Request (Query String)
+### GET `UsunieteSkrzynka`
 
-- globalKeySkrzynka: str ("a4408f53-e2e1-47b0-be8d-049160a3da11")
-- idLastWiadomosc: int (0)
-- pageSize: int (50)
+Pobiera usunięte wiadomości wybranego użytkownika
 
-Response (JSON)
+#### Request (Query String)
 
-- list[Wiadomość]
-```
+- `globalKeySkrzynka`: `str` (`"a4408f53-e2e1-47b0-be8d-049160a3da11"`)
+- `idLastWiadomosc`: `int` (`0`)
+- `pageSize`: `int` (`50`)
 
-```md
-GET DdsArchive
+#### Response (JSON)
 
-- Ekran "Pobieranie plików"
+- `list[Wiadomość]`
 
-Response (JSON)
+---
 
-- list[Wiadomość]
-```
+### GET `DdsArchive`
 
-```md
-GET Odebrane
+Ekran "Pobieranie plików"
 
-- Pobiera odebrane wiadomości
+#### Response (JSON)
 
-GET Wyslane
+- `list[Wiadomość]`
 
-- Pobiera wysłane wiadomości
+---
 
-GET Usuniete
+### GET `Odebrane`
 
-- Pobiera usunięte wiadomości
+Pobiera odebrane wiadomości
 
-GET Kopie
+### GET `Wyslane`
 
-- Pobiera kopie robocze
+Pobiera wysłane wiadomości
 
-Request (Query String)
+### GET `Usuniete`
 
-- idLastWiadomosc: int (0)
-- pageSize: int (50)
+Pobiera usunięte wiadomości
 
-Response (JSON)
+### GET `Kopie`
 
-- list[Wiadomość]
-```
+Pobiera kopie robocze
+
+#### Request (Query String)
+
+- `idLastWiadomosc`: `int` (`0`)
+- `pageSize`: `int` (`50`)
+
+#### Response (JSON)
+
+- `list[Wiadomość]`
