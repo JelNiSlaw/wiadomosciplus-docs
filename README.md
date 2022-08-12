@@ -110,7 +110,7 @@ Ekran "Pobieranie plików"
 
 200
 
-- `list[WiadomośćMeta]`
+- nie wiem pusta lista
 
 ---
 
