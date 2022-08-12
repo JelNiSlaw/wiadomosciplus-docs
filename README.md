@@ -313,6 +313,25 @@ Pobiera szczegóły usuniętej wiadomości w archiwum
 
 ---
 
+#### GET `WiadomoscOdbiorcy`
+
+#### Request (Query String)
+
+- `apiGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+        dataPrzeczytania: ISO 8601 | null ("2022-08-12T14:21:20.130+02:00")
+    }
+]
+```
+
 ### Wysyłanie wiadomości
 
 #### GET `WiadomoscNowa`
