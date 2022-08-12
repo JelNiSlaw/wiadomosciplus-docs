@@ -36,7 +36,12 @@ Autoryzacja przez nagłówek `Cookie`
     odczytana: bool (false),
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
-    zalaczniki: list[???] ([])
+    zalaczniki: [
+        {
+            url: str ("https://gpe-my.sharepoint.com/..."),
+            nazwaPliku: str ("test.pdf")
+        }
+    ]
 }
 ```
 
@@ -50,7 +55,12 @@ Autoryzacja przez nagłówek `Cookie`
     adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
     tytul: str ("test"),
     tresc: str ("<p>test</p>"),
-    zalaczniki: list[???] ([])
+    zalaczniki: [
+        {
+            url: str ("https://gpe-my.sharepoint.com/..."),
+            nazwaPliku: str ("test.pdf")
+        }
+    ]
 }
 ```
 
@@ -71,7 +81,12 @@ Autoryzacja przez nagłówek `Cookie`
     ],
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
-    zalaczniki: list[???] ([]),
+    zalaczniki: [
+        {
+            url: str ("https://gpe-my.sharepoint.com/..."),
+            nazwaPliku: str ("test.pdf")
+        }
+    ],
     id: int (47)
 }
 ```
@@ -85,7 +100,12 @@ Autoryzacja przez nagłówek `Cookie`
     odbiorcy: list[str] (["Stanisław Jelnicki - U - (placówka)"],
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
-    zalaczniki: list[???] ([]),
+    zalaczniki: [
+        {
+            url: str ("https://gpe-my.sharepoint.com/..."),
+            nazwaPliku: str ("test.pdf")
+        }
+    ],
     id: int (1234567)
 }
 ```
@@ -105,7 +125,12 @@ Autoryzacja przez nagłówek `Cookie`
             nazwa: str ("Stanisław Jelnicki - U - (placówka)")
         }
     ],
-    zalaczniki: list[???] ([])
+    zalaczniki: [
+        {
+            url: str ("https://gpe-my.sharepoint.com/..."),
+            nazwaPliku: str ("test.pdf")
+        }
+    ]
 }
 ```
 
@@ -419,6 +444,36 @@ Usuwa kopie robocze
 #### Request (Query String)
 
 - `globalKeys[]`: `list[str]` (`"1df26cc7-475f-4f70-9678-29d978d82c42"`)
+
+#### Response
+
+204
+
+---
+
+### Drukowanie raportów
+
+#### POST `OdebraneWydruk`
+
+Przygotowuje raport wybranych odebranych wiadomości
+
+#### POST `WyslaneWydruk`
+
+Przygotowuje raport wybranych wysłanych wiadomości
+
+#### Request (JSON)
+
+```
+{
+    esbPrintoutParams: {
+        guid: str ("00000000-0000-0000-0000-000000000000"),
+        friendlyName: str ("Wiadomości odebrane")
+    },
+    input: {
+        globalKeys: list[str] (["00000000-0000-0000-0000-000000000000"])
+    }
+}
+```
 
 #### Response
 
