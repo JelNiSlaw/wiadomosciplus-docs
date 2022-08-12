@@ -32,9 +32,7 @@ Autoryzacja przez nagłówek `Cookie`
     data: ISO 8601 ("2022-06-21T18:16:16.443+02:00"),
     id: int (1234567),
     nadawca: str ("Stanisław Jelnicki - U - (placówka)"),
-    odbiorcy: [
-        "Stanisław Jelnicki - U - (placówka)",
-    ],
+    odbiorcy: list[str] (["Stanisław Jelnicki - U - (placówka)"]),
     odczytana: bool (false),
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
@@ -46,13 +44,49 @@ Autoryzacja przez nagłówek `Cookie`
 
 ```
 {
-	globalKey: str ("00000000-0000-0000-0000-000000000000"),
-	watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-	nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-	adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
-	tytul: str ("test"),
-	tresc: str ("<p>test</p>"),
-	zalaczniki: list[???] ([])
+    globalKey: str ("00000000-0000-0000-0000-000000000000"),
+    watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
+    tytul: str ("test"),
+    tresc: str ("<p>test</p>"),
+    zalaczniki: list[???] ([])
+}
+```
+
+### Odpowiedź
+
+```
+{
+    data: ISO 8601 ("2022-08-12T13:24:07.807+02:00"),
+    apiGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    uzytkownikSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    nadawcaSkrzynkaNazwa: str "Stanisław Jelnicki - U - (placówka)",
+    adresaci: [
+        {
+            skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+            nazwa: str "Stanisław Jelnicki - U - (placówka)"
+        }
+    ],
+    temat: str ("test"),
+    tresc: str ("<p>test</p>"),
+    zalaczniki: list[???] ([]),
+    id: int (47)
+}
+```
+
+### OdpowiedźArchiwum
+
+```
+{
+    data: ISO 8601 ("2022-06-20T12:24:32.943+02:00"),
+    nadawca: str ("Stanisław Jelnicki - U - (placówka)"),
+    odbiorcy: list[str] (["Stanisław Jelnicki - U - (placówka)"],
+    temat: str ("test"),
+    tresc: str ("<p>test</p>"),
+    zalaczniki: list[???] ([]),
+    id: int (1234567)
 }
 ```
 
@@ -93,15 +127,15 @@ Pobiera usunięte wiadomości
 
 #### GET `OdebraneArchiwum`
 
-Pobiera zarchiwizowane odebrane wiadomości
+Pobiera odebrane wiadomości w archiwum
 
 #### GET `WyslaneArchiwum`
 
-Pobiera zarchiwizowane wysłane wiadomości
+Pobiera wysłane wiadomości w archiwum
 
 #### GET `UsunieteArchiwum`
 
-Pobiera zarchiwizowane usunięte wiadomości
+Pobiera usunięte wiadomości w archiwum
 
 #### GET `Kopie`
 
@@ -216,9 +250,31 @@ Ekran "Pobieranie plików"
 
 ### Czytanie wiadomości
 
+#### GET `WiadomoscSzczegoly`
+
+#### Request (Query String)
+
+- `apiGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+`Wiadomość`
+
+---
+
 #### GET `OdebraneSzczegolyArchiwum`
 
-Pobiera szczegóły zarchiwizowanej odebranej wiadomości
+Pobiera szczegóły odebranej wiadomości w archiwum
+
+#### GET `WyslaneSzczegolyArchiwum`
+
+Pobiera szczegóły wysłanej wiadomości w archiwum
+
+#### GET `UsunieteSzczegolyArchiwum`
+
+Pobiera szczegóły usuniętej wiadomości w archiwum
 
 #### Request (Query String)
 
@@ -242,10 +298,85 @@ Pobiera szczegóły zarchiwizowanej odebranej wiadomości
 
 #### Response
 
-mam nadzieję, że:
+204
 
-- 204 bez body lub
-- 200 z body `Wiadomość`
+---
+
+### Odpowiadanie i przekazywanie wiadomości
+
+#### GET `WiadomoscOdpowiedzPrzekaz`
+
+#### Request (Query String)
+
+- `apiGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+`Odpowiedź`
+
+---
+
+#### GET `WiadomoscArchiwumOdpowiedzPrzekaz`
+
+#### Request (Query String)
+
+- `idWiadomosc`: `int` (`1234567`)
+
+#### Response (JSON)
+
+200
+
+`OdpowiedźArchiwum`
+
+---
+
+### Usuwanie i przywracanie wiadomości
+
+#### POST `MoveTrash`
+
+Usuwa wiadomość
+
+Pierwsze użycie przenosi wiadomość z Odebranych do Usuniętych, następne usuwa
+wiadomość na zawsze
+
+#### POST `RestoreTrash`
+
+Przywraca wiadomość
+
+#### Request (JSON)
+
+```
+list[str] (["00000000-0000-0000-0000-000000000000"])
+```
+
+#### Response
+
+204
+
+---
+
+#### POST `DeleteArchiwum`
+
+Usuwa wiadomość w archiwum
+
+Pierwsze użycie przenosi wiadomość z Odebranych do Usuniętych, następne usuwa
+wiadomość na zawsze
+
+#### POST `RestoreTrashArchiwum`
+
+Przywraca wiadomość w archiwum
+
+#### Request (JSON)
+
+```
+list[int] ([1234567])
+```
+
+#### Response
+
+204
 
 ---
 
@@ -278,6 +409,22 @@ Zapisuje kopię roboczą
 #### Response
 
 204
+
+---
+
+#### DELETE `Kopie`
+
+Usuwa kopie robocze
+
+#### Request (Query String)
+
+- `globalKeys[]`: `list[str]` (`"1df26cc7-475f-4f70-9678-29d978d82c42"`)
+
+#### Response
+
+204
+
+---
 
 ### Ustawienia
 
