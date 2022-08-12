@@ -6,14 +6,16 @@ Autoryzacja przez nagłówek `Cookie`
 
 ## Obiekty
 
+### WiadomośćMeta
+
 ```
-WiadomośćMeta: {
+{
     apiGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
     data: ISO 8601 ("2022-08-11T23:58:20.81+02:00"),
     hasZalaczniki: bool (false),
     id: int (21),
     korespondenci: str ("Wielu adresatów (0)"),
-    nieprzeczytanePrzeczytanePrzez: ??? (null),
+    nieprzeczytanePrzeczytanePrzez: ??? | null (null),
     przeczytana: bool (true),
     skrzynka: str ("Stanisław Jelnicki - U - (placówka)"),
     temat: str ("test"),
@@ -22,8 +24,10 @@ WiadomośćMeta: {
 }
 ```
 
+### Wiadomość
+
 ```
-Wiadomość: {
+{
     apiGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
     data: ISO 8601 ("2022-06-21T18:16:16.443+02:00"),
     id: int (1234567),
@@ -34,12 +38,28 @@ Wiadomość: {
     odczytana: bool (false),
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
-    zalaczniki: ??? ([])
+    zalaczniki: list[???] ([])
 }
 ```
 
+### NowaWiadomość
+
 ```
-KopiaRobocza: {
+{
+	globalKey: str ("00000000-0000-0000-0000-000000000000"),
+	watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+	nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+	adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
+	tytul: str ("test"),
+	tresc: str ("<p>test</p>"),
+	zalaczniki: list[???] ([])
+}
+```
+
+### KopiaRobocza
+
+```
+{
     globalKey: str ("00000000-0000-0000-0000-000000000000"),
     watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
     temat: str ("test"),
@@ -51,57 +71,88 @@ KopiaRobocza: {
             nazwa: str ("Stanisław Jelnicki - U - (placówka)")
         }
     ],
-    "zalaczniki": []
+    zalaczniki: list[???] ([])
 }
 ```
 
 ## Endpointy
 
-### GET `OdebraneNowe`
+### Foldery wiadomości
 
-Pobiera nowe odebrane wiadomości
+#### GET `Odebrane`
 
-### GET `WyslaneNowe`
+Pobiera odebrane wiadomości
 
-Pobiera nowe wysłane wiadomości (nieużywane na stronie)
+#### GET `Wyslane`
+
+Pobiera wysłane wiadomości
+
+#### GET `Usuniete`
+
+Pobiera usunięte wiadomości
+
+#### GET `OdebraneArchiwum`
+
+Pobiera zarchiwizowane odebrane wiadomości
+
+#### GET `WyslaneArchiwum`
+
+Pobiera zarchiwizowane wysłane wiadomości
+
+#### GET `UsunieteArchiwum`
+
+Pobiera zarchiwizowane usunięte wiadomości
+
+#### GET `Kopie`
+
+Pobiera kopie robocze
 
 #### Request (Query String)
 
-- `idTopWiadomosc`: `int` (`0`)
+- `idLastWiadomosc`: `int` (`0`)
+- `pageSize`: `int` (`50`)
 
 #### Response (JSON)
 
 200
 
-- `list[WiadomośćMeta]`
+`list[WiadomośćMeta]`
 
 ---
 
-### GET `LiczbyNieodczytanych`
+#### GET `Skrzynki`
 
-Pobiera liczbę nieodebranych wiadomości
+Pobiera listę użytkowników
 
 #### Response (JSON)
 
 200
 
-- nie wiem pusta lista
+```
+[
+    {
+        globalKey: str ("00000000-0000-0000-0000-000000000000"),
+        nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+        typUzytkownika: int (3)
+    }
+]
+```
 
 ---
 
-### GET `OdebraneSkrzynka`
+#### GET `OdebraneSkrzynka`
 
 Pobiera odebrane wiadomości wybranego użytkownika
 
-### GET `WyslaneSkrzynka`
+#### GET `WyslaneSkrzynka`
 
 Pobiera wysłane wiadomości wybranego użytkownika
 
-### GET `UsunieteSkrzynka`
+#### GET `UsunieteSkrzynka`
 
 Pobiera usunięte wiadomości wybranego użytkownika
 
-### GET `KopieSkrzynka`
+#### GET `KopieSkrzynka`
 
 Pobiera kopie robocze wybranego użytkownika
 
@@ -115,11 +166,43 @@ Pobiera kopie robocze wybranego użytkownika
 
 200
 
-- `list[WiadomośćMeta]`
+`list[WiadomośćMeta]`
 
 ---
 
-### GET `DdsArchive`
+#### GET `OdebraneNowe`
+
+Pobiera nowe odebrane wiadomości
+
+#### GET `WyslaneNowe`
+
+Pobiera nowe wysłane wiadomości (nieużywane na stronie)
+
+#### Request (Query String)
+
+- `idTopWiadomosc`: `int` (`0`)
+
+#### Response (JSON)
+
+200
+
+`list[WiadomośćMeta]`
+
+---
+
+#### GET `LiczbyNieodczytanych`
+
+Pobiera liczbę nieodebranych wiadomości
+
+#### Response (JSON)
+
+200
+
+- nie wiem pusta lista
+
+---
+
+#### GET `DdsArchive`
 
 Ekran "Pobieranie plików"
 
@@ -131,48 +214,74 @@ Ekran "Pobieranie plików"
 
 ---
 
-### GET `Odebrane`
+### Czytanie wiadomości
 
-Pobiera odebrane wiadomości
+#### GET `OdebraneSzczegolyArchiwum`
 
-### GET `Wyslane`
-
-Pobiera wysłane wiadomości
-
-### GET `Usuniete`
-
-Pobiera usunięte wiadomości
-
-### GET `Kopie`
-
-Pobiera kopie robocze
-
-### GET `OdebraneArchiwum`
-
-Pobiera zarchiwizowane odebrane wiadomości
-
-### GET `WyslaneArchiwum`
-
-Pobiera zarchiwizowane wysłane wiadomości
-
-### GET `UsunieteArchiwum`
-
-Pobiera zarchiwizowane usunięte wiadomości
+Pobiera szczegóły zarchiwizowanej odebranej wiadomości
 
 #### Request (Query String)
 
-- `idLastWiadomosc`: `int` (`0`)
-- `pageSize`: `int` (`50`)
+- `idWiadomosc`: `int` (`1234567`)
 
 #### Response (JSON)
 
 200
 
-- `list[WiadomośćMeta]`
+`Wiadomość`
 
 ---
 
-### GET `Ustawienia`
+### Wysyłanie wiadomości
+
+#### GET `WiadomoscNowa`
+
+#### Request (JSON)
+
+`NowaWiadomość`
+
+#### Response
+
+mam nadzieję, że:
+
+- 204 bez body lub
+- 200 z body `Wiadomość`
+
+---
+
+### Kopie robocze
+
+#### GET `Kopia`
+
+Pobiera kopię roboczą
+
+#### Request (Query String)
+
+- `globalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+`KopiaRobocza`
+
+---
+
+#### POST `Kopia`
+
+Zapisuje kopię roboczą
+
+#### Request (JSON)
+
+`NowaWiadomość`
+
+#### Response
+
+204
+
+### Ustawienia
+
+#### GET `Ustawienia`
 
 Pobiera ustawienia wybranego użytkownika
 
@@ -193,7 +302,7 @@ Pobiera ustawienia wybranego użytkownika
 
 ---
 
-### POST `Ustawienia`
+#### POST `Ustawienia`
 
 Modyfikuje ustawienia wybranego użytkownika
 
@@ -213,205 +322,17 @@ Modyfikuje ustawienia wybranego użytkownika
 
 ---
 
-### GET `Cache`
+### Adresaci
 
-Pobiera drobne ustawienia
-
-#### Response (JSON)
-
-200
-
-```
-{
-    googleDriveApiKey: str (""),
-    googleDriveClientId: str (""),
-    oneDriveClientId: str ("00000000-0000-0000-0000-000000000000"),
-    links: [
-        {
-            elementy: ??? (null),
-            nazwa: str ("Uczeń"),
-            link: str ("https://uonetplus-uczen.edu.gdansk.pl/gdansk/placowka/LoginEndpoint.aspx"),
-            modul: int (0)
-        }
-    ],
-    "wiadomoscPowitalnaOn": bool (false)
-}
-```
-
----
-
-### GET `Stopka`
-
-Pobiera aktualnie ustawione stopki użytkowników
-
-#### Response (JSON)
-
-200
-
-```
-[
-    {
-        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-        tresc: str ("<p>test</p>")
-    }
-]
-```
-
----
-
-### POST `StatystykiLogowan`
-
-Informuje serwer o nowej sesji?
-
-#### Response
-
-204
-
----
-
-### GET `Skrzynki`
-
-Pobiera listę użytkowników
-
-#### Response (JSON)
-
-200
-
-```
-[
-    {
-        globalKey: str ("00000000-0000-0000-0000-000000000000"),
-        nazwa: str ("Stanisław Jelnicki - U - (placówka)"),
-        typUzytkownika: int (3)
-    }
-]
-```
-
----
-
-### GET `Kopia`
-
-Pobiera szczegóły kopii roboczej
-
-#### Request (Query String)
-
-- `globalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
-
-#### Response (JSON)
-
-200
-
-- `KopiaRobocza`
-
----
-
-### GET `OdebraneSzczegolyArchiwum`
-
-Pobiera szczegóły zarchiwizowanej odebranej wiadomości
-
-#### Request (Query String)
-
-- `idWiadomosc`: `int` (`1234567`)
-
-#### Response (JSON)
-
-200
-
-- `Wiadomość`
-
----
-
-### GET `GrupyAdresatow`
-
-Pobiera grupy adresatów
-
-#### Request (Query String)
-
-- `skrzynkaGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
-
-#### Response (JSON)
-
-200
-
-```
-[
-    {
-        nazwa: str ("test"),
-        globalKey: str ("00000000-0000-0000-0000-000000000000"),
-        id: int (0)
-    }
-]
-```
-
----
-
-### POST `GrupyAdresatow`
-
-Tworzy nową grupę adresatów
-
-#### Request (JSON)
-
-```
-
-{
-     "skrzynkaGlobalKey": "a4408f53-e2e1-47b0-be8d-049160a3da11",
-     "nazwa": "test",
-     "adresaciSkrzynkiGlobalKeys": [
-        "d06a33e6-55af-4c4a-917e-ef5ad0b1d040"
-    ]
-}
-```
-
----
-
-### GET `GrupaAdresatow`
-
-Pobiera listę adresatów w grupie
-
-#### Request (Query String)
-
-- `grupaAdresatowSkrzynkaGlobalKey`: `str`
-  (`"00000000-0000-0000-0000-000000000000"`)
-
-#### Response (JSON)
-
-200
-
-```
-[
-    {
-        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-        skrzynkaNazwa: str ("Stanisław Jelnicki - U - (placówka)"),
-        typUzytkownika: int (1)
-    }
-]
-```
-
----
-
-### DELETE `GrupyAdresatow`
-
-Usuwa grupę adresatów
-
-#### Request (Query String)
-
-- `grupaAdresatowGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
-
-#### Response
-
-204
-
----
-
-### GET `Uczniowie`
+#### GET `Uczniowie`
 
 Pobiera adresatów którzy są uczniami
 
-### GET `Opiekunowie`
+#### GET `Opiekunowie`
 
 Pobiera adresatów którzy są opiekunami
 
-### GET `Pracownicy`
+#### GET `Pracownicy`
 
 Pobiera adresatów którzy są pracownikami
 
@@ -445,24 +366,137 @@ Pobiera adresatów którzy są pracownikami
 
 ---
 
-### GET `WiadomoscNowa`
+#### GET `GrupaAdresatow`
+
+Pobiera adresatów w grupie
+
+#### Request (Query String)
+
+- `grupaAdresatowSkrzynkaGlobalKey`: `str`
+  (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+        skrzynkaNazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+        typUzytkownika: int (1)
+    }
+]
+```
+
+---
+
+#### GET `GrupyAdresatow`
+
+Pobiera grupy adresatów
+
+#### Request (Query String)
+
+- `skrzynkaGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        nazwa: str ("test"),
+        globalKey: str ("00000000-0000-0000-0000-000000000000"),
+        id: int (0)
+    }
+]
+```
+
+---
+
+#### POST `GrupyAdresatow`
+
+Tworzy grupę adresatów
 
 #### Request (JSON)
 
 ```
 {
-	globalKey: str ("00000000-0000-0000-0000-000000000000"),
-	watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-	nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
-	adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
-	tytul: str ("test"),
-	tresc: str ("<p>test</p>"),
-	zalaczniki: ??? ([])
+     skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+     nazwa: str ("test"),
+     adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]
 }
 ```
 
+---
+
+#### DELETE `GrupyAdresatow`
+
+Usuwa grupę adresatów
+
+#### Request (Query String)
+
+- `grupaAdresatowGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
 #### Response
 
-- mam nadzieję, że
-- 204 bez body lub
-- 200 z body `Wiadomość`
+204
+
+---
+
+### Różne
+
+#### GET `Cache`
+
+Pobiera drobne ustawienia
+
+#### Response (JSON)
+
+200
+
+```
+{
+    googleDriveApiKey: str (""),
+    googleDriveClientId: str (""),
+    oneDriveClientId: str ("00000000-0000-0000-0000-000000000000"),
+    links: [
+        {
+            elementy: ??? | null (null),
+            nazwa: str ("Uczeń"),
+            link: str ("https://uonetplus-uczen.edu.gdansk.pl/gdansk/placowka/LoginEndpoint.aspx"),
+            modul: int (0)
+        }
+    ],
+    "wiadomoscPowitalnaOn": bool (false)
+}
+```
+
+---
+
+#### GET `Stopka`
+
+Pobiera aktualnie ustawione stopki użytkowników
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+        tresc: str | null ("<p>test</p>")
+    }
+]
+```
+
+---
+
+#### POST `StatystykiLogowan`
+
+Informuje serwer o nowej sesji?
+
+#### Response
+
+204
