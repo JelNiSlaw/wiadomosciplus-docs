@@ -15,7 +15,7 @@ WiadomośćMeta: {
     korespondenci: str ("Wielu adresatów (0)"),
     nieprzeczytanePrzeczytanePrzez: ??? (null),
     przeczytana: bool (true),
-    skrzynka: str (Stanisław Jelnicki - U - (placówka)),
+    skrzynka: str ("Stanisław Jelnicki - U - (placówka)"),
     temat: str ("test"),
     uzytkownikRola: int (1),
     wazna: bool (false)
@@ -35,6 +35,23 @@ Wiadomość: {
     temat: str ("test"),
     tresc: str ("<p>test</p>"),
     zalaczniki: ??? ([])
+}
+```
+
+```
+KopiaRobocza: {
+    globalKey: str ("00000000-0000-0000-0000-000000000000"),
+    watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    temat: str ("test"),
+    tresc: str ("<p>test</p>"),
+    nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+    adresaci: [
+        {
+            skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+            nazwa: str ("Stanisław Jelnicki - U - (placówka)")
+        }
+    ],
+    "zalaczniki": []
 }
 ```
 
@@ -182,9 +199,13 @@ Modyfikuje ustawienia wybranego użytkownika
 
 #### Request (JSON)
 
-- `globalKeySkrzynka`: `str` (`"00000000-0000-0000-0000-000000000000"`)
-- `stopka`: `str | null` (`"<p>test</p>"`)
-- `trybWysylaniaPowiadomien`: `int` (`1`)
+```
+{
+    globalKeySkrzynka: str ("00000000-0000-0000-0000-000000000000"),
+    trybWysylaniaPowiadomien: int (1),
+    stopka: str | null ("<p>test</p>")
+}
+```
 
 #### Response
 
@@ -272,11 +293,15 @@ Pobiera listę użytkowników
 
 Pobiera szczegóły kopii roboczej
 
+#### Request (Query String)
+
+- `globalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
 #### Response (JSON)
 
 200
 
-- `Wiadomość`
+- `KopiaRobocza`
 
 ---
 
@@ -293,3 +318,151 @@ Pobiera szczegóły zarchiwizowanej odebranej wiadomości
 200
 
 - `Wiadomość`
+
+---
+
+### GET `GrupyAdresatow`
+
+Pobiera grupy adresatów
+
+#### Request (Query String)
+
+- `skrzynkaGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        nazwa: str ("test"),
+        globalKey: str ("00000000-0000-0000-0000-000000000000"),
+        id: int (0)
+    }
+]
+```
+
+---
+
+### POST `GrupyAdresatow`
+
+Tworzy nową grupę adresatów
+
+#### Request (JSON)
+
+```
+
+{
+     "skrzynkaGlobalKey": "a4408f53-e2e1-47b0-be8d-049160a3da11",
+     "nazwa": "test",
+     "adresaciSkrzynkiGlobalKeys": [
+        "d06a33e6-55af-4c4a-917e-ef5ad0b1d040"
+    ]
+}
+```
+
+---
+
+### GET `GrupaAdresatow`
+
+Pobiera listę adresatów w grupie
+
+#### Request (Query String)
+
+- `grupaAdresatowSkrzynkaGlobalKey`: `str`
+  (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+        skrzynkaNazwa: str ("Stanisław Jelnicki - U - (placówka)"),
+        typUzytkownika: int (1)
+    }
+]
+```
+
+---
+
+### DELETE `GrupyAdresatow`
+
+Usuwa grupę adresatów
+
+#### Request (Query String)
+
+- `grupaAdresatowGlobalKey`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response
+
+204
+
+---
+
+### GET `Uczniowie`
+
+Pobiera adresatów którzy są uczniami
+
+### GET `Opiekunowie`
+
+Pobiera adresatów którzy są opiekunami
+
+### GET `Pracownicy`
+
+Pobiera adresatów którzy są pracownikami
+
+#### Request (Query String)
+
+- `globalKeySkrzynka`: `str` (`"00000000-0000-0000-0000-000000000000"`)
+
+#### Response (JSON)
+
+200
+
+```
+[
+    {
+        metadata: {
+            role: list[int] ([5]),
+            dziennikiZajeciaInneIds: list[int] ([]),
+            przedmiotyIds: list[int] ([1234]),
+            oddzialyIds: list[int] ([123]),
+            oddzialyPrzedszkolneIds: list[int] ([]),
+            oddzialyWychowankowieIds: list[int] ([]),
+            oddzialyWychowawcyIds: list[int] ([]),
+            oddzialyPrzedszkolneWychowawcyIds: list[int] ([]),
+            oddzialyWychowankowieWychowawcyIds: list[int] ([])
+        },
+        skrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+        nazwa: str ("Stanisław Jelnicki - U - (placówka)")
+    }
+]
+```
+
+---
+
+### GET `WiadomoscNowa`
+
+#### Request (JSON)
+
+```
+{
+	globalKey: str ("00000000-0000-0000-0000-000000000000"),
+	watekGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+	nadawcaSkrzynkaGlobalKey: str ("00000000-0000-0000-0000-000000000000"),
+	adresaciSkrzynkiGlobalKeys: list[str] (["00000000-0000-0000-0000-000000000000"]),
+	tytul: str ("test"),
+	tresc: str ("<p>test</p>"),
+	zalaczniki: ??? ([])
+}
+```
+
+#### Response
+
+- mam nadzieję, że
+- 204 bez body lub
+- 200 z body `Wiadomość`
