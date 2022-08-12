@@ -689,7 +689,7 @@ Pobiera drobne ustawienia
             modul: int (0)
         }
     ],
-    "wiadomoscPowitalnaOn": bool (false)
+    wiadomoscPowitalnaOn: bool (false)
 }
 ```
 
