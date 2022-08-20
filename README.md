@@ -380,14 +380,15 @@ Pobiera szczegóły usuniętej wiadomości w archiwum
 
 #### POST `MoveTrash`
 
-Usuwa wiadomość
-
-Pierwsze użycie przenosi wiadomość z Odebranych do Usuniętych, następne usuwa
-wiadomość na zawsze
+Przenosi wiadomość do kosza
 
 #### POST `RestoreTrash`
 
-Przywraca wiadomość
+Przywraca wiadomość z kosza
+
+#### `Delete`
+
+Usuwa wiadomość na zawsze
 
 #### Request (JSON)
 
@@ -401,16 +402,17 @@ list[str] (["00000000-0000-0000-0000-000000000000"])
 
 ---
 
-#### POST `DeleteArchiwum`
+#### POST `MoveTrashArchiwum`
 
-Usuwa wiadomość w archiwum
-
-Pierwsze użycie przenosi wiadomość z Odebranych do Usuniętych, następne usuwa
-wiadomość na zawsze
+Przenosi wiadomość do kosza w archiwum
 
 #### POST `RestoreTrashArchiwum`
 
-Przywraca wiadomość w archiwum
+Przywraca wiadomość z kosza w archiwum
+
+#### POST `DeleteArchiwum`
+
+Usuwa wiadomość na zawsze w archiwum
 
 #### Request (JSON)
 
@@ -721,3 +723,5 @@ Informuje serwer o nowej sesji?
 #### Response
 
 204
+
+---
