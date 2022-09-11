@@ -257,7 +257,14 @@ Pobiera liczbę nieodebranych wiadomości
 
 200
 
-- nie wiem pusta lista
+```
+[
+    {
+        "globalKey": str ("00000000-0000-0000-0000-000000000000"),
+        "liczbaWiadomosci": int (3)
+    }
+]
+```
 
 ---
 
